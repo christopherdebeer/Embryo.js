@@ -1,0 +1,19 @@
+{
+  "author": "Christopher de Beer <christopherdebeer@gmail.com> (http://empirecollective.co.uk)",
+  "name": "embryo",
+  "description": "An Existential and Biological approach to coding, turning projects into Creations.",
+  "version": "0.0.0",
+  "homepage": "http://empirecollective.co.uk",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/christopherdebeer/Embryo.js.git"
+  },
+  "main": "embryo.js",
+  "engines": {
+    "node": "~0.6.3"
+  },
+  "dependencies": {
+    "falafel": "~0.1.0"
+  },
+  "devDependencies": {}
+}

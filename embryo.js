@@ -1,6 +1,4 @@
 
-
-
 // Embryonic Programming
 // ====================
 // An Existential, and Biological approach to coding.
@@ -29,15 +27,12 @@ var Embryo = function(meta){
 Embryo.prototype.split = function(title){
 
 	console.log("Embryo: Splitting and creating new embryo to fulfill feature: ", title);
-	var newEmbryo = new Embryo({godfather: this.godfather || this});
 
+	var newEmbryo = new Embryo({godfather: this.godfather || this});
 	newEmbryo.id = this.id + "-" + (this.offspring++);
 	newEmbryo.title = title || ("Creation " + newEmbryo.id);
-	
-	newEmbryo.fn = function(){
-		return [this.err, null];
-	}
 	newEmbryo.godfather.embryos[title] = newEmbryo;
+
 	return newEmbryo;
 }
 
@@ -64,18 +59,31 @@ Embryo.prototype.run = function(cmds, cb){
 }
 
 
-// Example - First try.
 
-new Embryo({
-	title: "My Program",
-	type: "Project",
-	description: "A Test of Embryonic Programming.",
-	fn: function (program) {
+// node methods for compilation and AST manipulation
 
-		program.run(["add 2 numbers", [2, 3]], function(err, data){
-			if (!err) console.log("Embryo: Added two numbers and got: ", data);
-			else console.log("Embryo: Tried to [", this.title, "] but got an err: ", err);
-		});
+if (module && !module.parent && process && process.argv.length) {
 
-	}
-})
+	var falafel = require('falafel');
+	var fs = require('fs');
+
+	console.log('Embryo: Growing ' + process.argv[2]);
+
+	fs.readFile(process.argv[2], function(err, src){
+		if (err) console.log("Embryo: Error laoding file: ", process.argv[2]);
+		else{
+			falafel(src, function(node){
+				console.log("================================================");
+				console.log(node);
+			})
+		}
+	})
+
+}
+
+
+if (module && module.exports) module.exports = Embryo;
+
+
+
+
