@@ -1,3 +1,6 @@
+![Embryo.js](https://github.com/christopherdebeer/Embryo.js/raw/master/embryo.jpg "Embryo.js")
+
+
 Emryonic Programming
 ====================
 An Existential, and Biological approach to coding.
