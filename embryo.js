@@ -24,12 +24,11 @@ var Embryo = function(meta){
 	if (!this.godfather) this.embryos = {};
 
 	this.fn(this);
-	return null;
 }
 
 Embryo.prototype.split = function(title){
 
-	console.log("Splitting and creating new embryo to fulfill feature: ", title);
+	console.log("Embryo: Splitting and creating new embryo to fulfill feature: ", title);
 	var newEmbryo = new Embryo({godfather: this.godfather || this});
 
 	newEmbryo.id = this.id + "-" + (this.offspring++);
@@ -44,19 +43,24 @@ Embryo.prototype.split = function(title){
 
 Embryo.prototype.run = function(cmds, cb){
 
-	var ret;
+	var ret, emb;
+	cmds[0] = cmds[0].toLowerCase();
+
 	if (!this.godfather && typeof this.embryos[cmds[0]] !== 'undefined') {
-		console.log("feature: " + cmds[0] + " exists on self, asking it to fulfill request.");
-		ret = this.embryos[cmds[0]].fn(cmds[1]);
+		console.log("Embryo: Feature: [" + cmds[0] + "] exists on self, fulfilling request.");
+		emb = this.embryos[cmds[0]];
+		ret = emb.fn(cmds[1]);
 	} else if (this.godfather && typeof this.godfather.embryos[cmds[0]] !== 'undefined') {
-		console.log("feature: " + cmds[0] + " exists on godfather, asking it to fulfill request.");
-		ret = this.godfather.embryos[cmds[0]].fn(cmds[1]);
+		console.log("Embryo: Feature: [" + cmds[0] + "] exists on godfather, asking it to fulfill request.");
+		emb = this.godfather.embryos[cmds[0]];
+		ret = emb.fn(cmds[1]);
 	} else {
-		console.log("feature: " + cmds[0] + " doesnt exists, creating bug.");
-		ret = this.split(cmds[0]).fn(cmds[1]);
+		console.log("Embryo: Feature: [" + cmds[0] + "] doesnt exists, creating bug.");
+		emb = this.split(cmds[0]);
+		ret = emb.fn(cmds[1]);
 	}
 
-	cb(ret[0], ret[1]);
+	cb.call(emb, ret[0], ret[1]);
 }
 
 
@@ -69,8 +73,8 @@ new Embryo({
 	fn: function (program) {
 
 		program.run(["add 2 numbers", [2, 3]], function(err, data){
-			if (!err) console.log("added two numbers and got: ", data);
-			else console.log("tried to add two numbers, but got an err: ", err);
+			if (!err) console.log("Embryo: Added two numbers and got: ", data);
+			else console.log("Embryo: Tried to [", this.title, "] but got an err: ", err);
 		});
 
 	}
