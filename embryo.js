@@ -1,7 +1,7 @@
 
 
 
-// Emryonic Programming
+// Embryonic Programming
 // ====================
 // An Existential, and Biological approach to coding.
 // Turning projects into Creations.
