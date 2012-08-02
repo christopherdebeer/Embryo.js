@@ -42,7 +42,7 @@ Embryo.prototype.split = function(title){
 	return newEmbryo;
 }
 
-Embryo.prototype.do = function(cmds, cb){
+Embryo.prototype.run = function(cmds, cb){
 
 	var ret;
 	if (!this.godfather && typeof this.embryos[cmds[0]] !== 'undefined') {
@@ -68,7 +68,7 @@ new Embryo({
 	description: "A Test of Embryonic Programming.",
 	fn: function (program) {
 
-		program.do(["add 2 numbers", [2, 3]], function(err, data){
+		program.run(["add 2 numbers", [2, 3]], function(err, data){
 			if (!err) console.log("added two numbers and got: ", data);
 			else console.log("tried to add two numbers, but got an err: ", err);
 		});
