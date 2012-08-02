@@ -6,18 +6,22 @@
 // An Existential, and Biological approach to coding.
 // Turning projects into Creations.
 
-var Embryos = {};
 
 var Embryo = function(meta){
+
+	this.godfather = typeof meta.godfather !== 'undefined' ? meta.godfather : null;
+	this.id = meta.id || "0";
 	this.type = meta.type || "bug";
 	this.title = meta.title || "Creation";
-	this.id = meta.id || "0";
-	this.offspring = 0;
 	this.description = meta.description || "An Embryo.";
+	
+	this.offspring = 0;
 	this.err = meta.err || {code: 500, msg: "This is a Bug. A Patch/Feature has not being created yet."};
 	this.fn = meta.fn || function(){
 		return [this.err, null];
 	}
+
+	if (!this.godfather) this.embryos = {};
 
 	this.fn(this);
 	return null;
@@ -26,23 +30,30 @@ var Embryo = function(meta){
 Embryo.prototype.split = function(title){
 
 	console.log("Splitting and creating new embryo to fulfill feature: ", title);
-	var newEmbryo = this;
+	var newEmbryo = new Embryo({godfather: this.godfather || this});
+
 	newEmbryo.id = this.id + "-" + (this.offspring++);
 	newEmbryo.title = title || ("Creation " + newEmbryo.id);
+	
 	newEmbryo.fn = function(){
 		return [this.err, null];
 	}
-	Embryos[title] = newEmbryo;
+	newEmbryo.godfather.embryos[title] = newEmbryo;
 	return newEmbryo;
 }
 
 Embryo.prototype.do = function(cmds, cb){
-	if (typeof Embryos[cmds[0]] !== 'undefined') {
-		console.log("feature: " + cmds[0] + " exists, asking it to fulfill request.")
-		var ret = Embryos[cmds[0]].fn(cmds[1]);
+
+	var ret;
+	if (!this.godfather && typeof this.embryos[cmds[0]] !== 'undefined') {
+		console.log("feature: " + cmds[0] + " exists on self, asking it to fulfill request.");
+		ret = this.embryos[cmds[0]].fn(cmds[1]);
+	} else if (this.godfather && typeof this.godfather.embryos[cmds[0]] !== 'undefined') {
+		console.log("feature: " + cmds[0] + " exists on godfather, asking it to fulfill request.");
+		ret = this.godfather.embryos[cmds[0]].fn(cmds[1]);
 	} else {
 		console.log("feature: " + cmds[0] + " doesnt exists, creating bug.");
-		var ret = this.split(cmds[0]).fn(cmds[1]);
+		ret = this.split(cmds[0]).fn(cmds[1]);
 	}
 
 	cb(ret[0], ret[1]);
