@@ -1,4 +1,4 @@
-![Embryo.js](https://github.com/christopherdebeer/Embryo.js/raw/master/embryo.jpg "Embryo.js")
+![Embryo.js](https://github.com/christopherdebeer/Embryo.js/raw/master/embryo.gif "Embryo.js")
 
 
 Emryonic Programming
