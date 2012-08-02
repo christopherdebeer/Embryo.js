@@ -6,9 +6,9 @@
 // An Existential, and Biological approach to coding.
 // Turning projects into Creations.
 
+var Embryos = {};
 
 var Embryo = function(meta){
-	this.known = [];
 	this.type = meta.type || "bug";
 	this.title = meta.title || "Creation";
 	this.id = meta.id || "0";
@@ -20,23 +20,28 @@ var Embryo = function(meta){
 	}
 
 	this.fn(this);
+	return null;
 }
 
 Embryo.prototype.split = function(title){
+
+	console.log("Splitting and creating new embryo to fulfill feature: ", title);
 	var newEmbryo = this;
-	newEmbryo.title = title || "Creation";
 	newEmbryo.id = this.id + "-" + (this.offspring++);
+	newEmbryo.title = title || ("Creation " + newEmbryo.id);
 	newEmbryo.fn = function(){
 		return [this.err, null];
 	}
-	this.known.push(newEmbryo);
+	Embryos[title] = newEmbryo;
 	return newEmbryo;
 }
 
 Embryo.prototype.do = function(cmds, cb){
-	if (this.known.indexOf(cmds[0]) !== -1) {
-		var ret = this.known[cmds[0]].fn(cmds[1]);
+	if (typeof Embryos[cmds[0]] !== 'undefined') {
+		console.log("feature: " + cmds[0] + " exists, asking it to fulfill request.")
+		var ret = Embryos[cmds[0]].fn(cmds[1]);
 	} else {
+		console.log("feature: " + cmds[0] + " doesnt exists, creating bug.");
 		var ret = this.split(cmds[0]).fn(cmds[1]);
 	}
 
@@ -47,7 +52,7 @@ Embryo.prototype.do = function(cmds, cb){
 // Example - First try.
 
 new Embryo({
-	title: "my Program",
+	title: "My Program",
 	type: "Project",
 	description: "A Test of Embryonic Programming.",
 	fn: function (program) {
